@@ -1,39 +1,139 @@
-# Automatización Elegida: Automatización Personalizada
+# 🏠 Sistema SmartHome
 
-En esta primera etapa del proyecto integrador se ha optado por implementar la funcionalidad de automatización personalizada, la cual permite a los usuarios programar acciones automáticas sobre dispositivos inteligentes del hogar, según sus propias rutinas y necesidades.
+Un sistema de gestión domótica desarrollado en Python que permite controlar dispositivos inteligentes y configurar automatizaciones para el hogar.
 
-Esta funcionalidad responde a uno de los requerimientos funcionales claves del sistema: brindar una experiencia flexible y centrada en el usuario, que se adapte a hábitos cotidianos.
+### Sistema de Automatización
+- 🌙 **Automatización nocturna**: Configuración automática para la noche
+- 🤖 **Control de automatizaciones**: Activa/desactiva automatizaciones específicas
+- 📊 **Estado de automatizaciones**: Visualiza qué dispositivos están automatizados
+- 🔄 **Gestión masiva**: Desactiva todas las automatizaciones de una vez
 
-El objetivo principal de esta automatización es dar control total al usuario sobre el comportamiento del sistema mediante una interfaz de consola, donde puede:
-* Crear nuevas automatizaciones.
+## 📖 Guía de Uso
 
+### 1. Gestión de Dispositivos
 
-* Definir el horario y la acción que debe realizarse.
+#### Agregar un Dispositivo
+1. Selecciona "Gestionar Dispositivos" → "Agregar dispositivo"
+2. Proporciona:
+   - **ID único** (ej: `luz1`, `cam01`)
+   - **Nombre descriptivo** (ej: "Luz Sala", "Cámara Entrada")
+   - **Tipo** (ej: "luz", "cámara", "sensor")
 
+#### Estados de Dispositivos
+- 🟢 **Encendido**: Dispositivo activo
+- 🔴 **Apagado**: Dispositivo inactivo
+- 🤖 **Automatizado**: Controlado por automatización
+- 👤 **Manual**: Control manual del usuario
 
-* Asociar esas acciones a dispositivos registrados en el sistema.
+### 2. Sistema de Automatización
 
+#### Automatización Nocturna
+La automatización nocturna ejecuta las siguientes acciones:
 
-* Eliminar automatizaciones previamente creadas.
+**Para Luces/Iluminación:**
+- ✅ Se apagan automáticamente
+- 🏷️ Tipos reconocidos: `luz`, `luces`, `lampara`, `iluminacion`
+- 📋 Regla aplicada: "Modo Nocturno"
+- ⏰ Descripción: "Luces apagadas automáticamente (22:00-06:00)"
 
+**Para Cámaras/Seguridad:**
+- ✅ Se encienden automáticamente
+- 🏷️ Tipos reconocidos: `camara`, `seguridad`, `vigilancia`
+- 📋 Regla aplicada: "Vigilancia Nocturna"
+- ⏰ Descripción: "Cámara activada para seguridad nocturna"
 
-* Ver el listado de automatizaciones activas.
+#### Control de Automatizaciones
 
+##### Ver Estado de Automatizaciones
+Muestra información detallada de todos los dispositivos:
+```
+📱 Luz Principal (ID: luz1)
+   Estado: apagado
+   Automatización: 🟢 Activa
+   Control: 🤖 Automatizado
+   📋 Regla: Modo Nocturno
+   ⏰ Luces apagadas automáticamente (22:00-06:00)
+```
 
-Esto contribuye a una mayor comodidad, eficiencia energética y personalización del entorno del hogar inteligente.
+##### Desactivar Automatización Específica
+- Permite desactivar la automatización de un dispositivo individual
+- **Importante**: El dispositivo mantiene su estado actual
+- Solo se elimina el control automático, pasando a control manual
 
-# Funcionamiento
-Ej: Un usuario desea que su cafetera se encienda todos los días a las 7:00 AM.
-Pasos:
-- Registra la cafetera como dispositivo.
+##### Desactivar Todas las Automatizaciones
+- Desactiva todas las automatizaciones activas del sistema
+- Solicita confirmación antes de ejecutar
+- Todos los dispositivos mantienen su estado actual
 
+## 🎯 Ejemplos de Uso
 
-- Accede al menú de automatizaciones.
+### Escenario 1: Configuración Nocturna
+```
+1. Agregar dispositivos:
+   - ID: luz1, Nombre: "Luz Sala", Tipo: "luz"
+   - ID: cam1, Nombre: "Cámara Entrada", Tipo: "camara"
 
+2. Ejecutar automatización nocturna:
+   - luz1 → Se apaga automáticamente
+   - cam1 → Se enciende para vigilancia
 
-- Ingresa el horario y la acción deseada.
+3. Resultado:
+   🔴 Luz Sala - Apagada (Modo Nocturno)
+   🟢 Cámara Entrada - Activada (Vigilancia Nocturna)
+```
 
+### Escenario 2: Control Manual Override
+```
+1. Dispositivo con automatización activa
+2. Cambiar estado manualmente:
+   - La automatización se desactiva automáticamente
+   - El dispositivo pasa a control manual
+3. Para reactivar automatización:
+   - Usar menú de automatizaciones específicas
+```
 
-- El sistema guarda la automatización en memoria.
-  
-Luego el usuario dentro del menú de automatizaciones puede listarla o eliminarla.
+### Escenario 3: Gestión de Automatizaciones
+```
+1. Ver dispositivos automatizados:
+   - Lista solo dispositivos con automatización activa
+   
+2. Desactivar automatización específica:
+   - Seleccionar dispositivo por ID
+   - Mantiene estado actual, elimina control automático
+   
+3. Desactivar todas:
+   - Confirma acción (s/N)
+   - Desactiva todas las automatizaciones masivamente
+```
+
+## 🔧 Tipos de Dispositivos Soportados
+
+### Iluminación
+- **Tipos reconocidos**: `luz`, `luces`, `lampara`, `iluminacion`
+- **Automatización nocturna**: Se apagan
+- **Estados**: encendido/apagado
+
+### Seguridad
+- **Tipos reconocidos**: `camara`, `seguridad`, `vigilancia`
+- **Automatización nocturna**: Se encienden
+- **Estados**: encendido/apagado
+
+### Otros Dispositivos
+- Cualquier otro tipo de dispositivo puede ser agregado
+- Control manual de encendido/apagado
+- No afectados por automatización nocturna (actualmente)
+
+## 🐛 Resolución de Problemas
+
+### El sistema no muestra colores
+- Verifica que tu terminal soporte códigos ANSI
+- En Windows, usa Windows Terminal o actualiza a Windows 10+
+
+### Dispositivo no se encuentra
+- Verifica que el ID sea exacto (sensible a mayúsculas/minúsculas)
+- Usa "Listar dispositivos" para ver IDs disponibles
+
+### Automatización no funciona
+- Verifica que el tipo de dispositivo sea reconocido
+- Los tipos deben coincidir exactamente: `luz`, `camara`, etc.
+
