@@ -1,11 +1,11 @@
-def agregar_dispositivo(dispositivos, dispositivo_id, nombre, tipo, estado):
+def agregar_dispositivo(dispositivos, dispositivo_id, nombre, tipo):
     if dispositivo_id in dispositivos:
         print("\033[91m⚠️ El ID ya está en uso.\033[0m")
         return
     dispositivos[dispositivo_id] = {
         "nombre": nombre,
         "tipo": tipo,
-        "estado": estado
+        "estado": False
     }
     print("\n\033[92m✅ Dispositivo agregado correctamente.\033[0m")
 
