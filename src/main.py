@@ -43,66 +43,102 @@ def menu_estandar(usuario):
             print("\n❌ Opción inválida.")
             pausar()
 
-
-
-
-
-
-
-
-
-
-def menu_automatizaciones(dispositivos):
-    """Menú de automatizaciones."""
+def menu_admin(usuario):
     while True:
         limpiar_consola()
-        print("\033[94m⏰ Automatizaciones\033[0m")
-        print("\n\033[96m1. Ejecutar automatización nocturna\033[0m")
-        print("\033[96m2. Ver estado de automatizaciones\033[0m")
-        print("\033[96m3. Listar dispositivos automatizados\033[0m")
-        print("\033[96m4. Desactivar automatización específica\033[0m")
-        print("\033[96m5. Desactivar todas las automatizaciones\033[0m")
-        print("\033[96m6. Volver\033[0m")
-        
-        opcion = input("\nSeleccionar opción: ").strip()
+        print(f"\033[93m=== MENÚ ADMIN - Bienvenido {usuario['usuario']} ===\033[0m")
+        print("\n1. Consultar automatización predefinida")
+        print("2. Gestionar dispositivos")
+        print("3. Modificar rol de usuario")
+        print("0. Cerrar sesión")
+        opcion = input("\nSeleccioná una opción: ")
 
         if opcion == "1":
             limpiar_consola()
-            ejecutar_automatizacion_nocturna(dispositivos)
-            
+            print("\033[93m=== AUTOMATIZACIÓN PREDEFINIDA ===\033[0m\n")
+            for a in automatizaciones:
+                print(f"Dispositivo: {a['dispositivo']}")
+                print(f"Hora: {a['hora']}")
+                print(f"Estado: {'Encendida' if a['accion'] == 1 else 'Apagada'}\n")
+            pausar()
+
         elif opcion == "2":
-            limpiar_consola()
-            mostrar_estado_automatizacion(dispositivos)
-            
+            while True:
+                limpiar_consola()
+                print("\033[93m=== GESTIÓN DE DISPOSITIVOS ===\033[0m")
+                print("\n1. Agregar dispositivo")
+                print("2. Listar dispositivos")
+                print("3. Buscar dispositivo por ID")
+                print("4. Eliminar dispositivo")
+                print("0. Volver")
+                subopcion = input("\nSeleccioná una opción: ")
+
+                if subopcion == "1":
+                    limpiar_consola()
+                    dispositivo_id = input("ID del dispositivo: ").strip()
+                    nombre = input("Nombre del dispositivo: ").strip()
+                    tipo = input("Tipo de dispositivo: ").strip()
+                    agregar_dispositivo(dispositivos, dispositivo_id, nombre, tipo)
+                    pausar()
+
+                elif subopcion == "2":
+                    limpiar_consola()
+                    listar_dispositivos(dispositivos)
+                    pausar()
+
+                elif subopcion == "3":
+                    limpiar_consola()
+                    dispositivo_id = input("ID del dispositivo a buscar: ").strip()
+                    buscar_dispositivo(dispositivos, dispositivo_id)
+                    pausar()
+
+                elif subopcion == "4":
+                    limpiar_consola()
+                    dispositivo_id = input("ID del dispositivo a eliminar: ").strip()
+                    eliminar_dispositivo(dispositivos, dispositivo_id)
+                    pausar()
+
+                elif subopcion == "0":
+                    break
+
+                else:
+                    print("\n❌ Opción inválida.")
+                    pausar()
+
         elif opcion == "3":
             limpiar_consola()
-            listar_dispositivos_automatizados(dispositivos)
-            
-        elif opcion == "4":
-            # Primero mostrar dispositivos automatizados
+            modificar_rol_usuario(usuarios)
+            pausar()
+
+        elif opcion == "0":
+            break
+
+        else:
+            print("\n❌ Opción inválida.")
+            pausar()
+
+def main():
+    while True:
+        opcion = menu_principal()
+
+        if opcion == "1":
             limpiar_consola()
-            listar_dispositivos_automatizados(dispositivos)
-            
-            # Si hay dispositivos automatizados, permitir seleccionar uno
-            dispositivos_auto = {k: v for k, v in dispositivos.items() if v.get("automatizado", False)}
-            if dispositivos_auto:
-                print("\n" + "="*50)
-                dispositivo_id = input("\033[93mID del dispositivo para desactivar automatización: \033[0m").strip()
-                limpiar_consola()
-                ejecutar_automatizacion(dispositivos, dispositivo_id, "desactivar")
-            
-        elif opcion == "5":
+            registrar_usuario(usuarios)
+            pausar()
+        elif opcion == "2":
             limpiar_consola()
-            desactivar_todas_automatizaciones(dispositivos)
-            
-        elif opcion == "6":
+            usuario = iniciar_sesion(usuarios)
+            if usuario:
+                if usuario["rol"] == "admin":
+                    menu_admin(usuario)
+                else:
+                    menu_estandar(usuario)
+        elif opcion == "0":
+            print("\n👋 Gracias por usar Smart Home Solutions. ¡Hasta pronto!\n")
             break
         else:
-            limpiar_consola()
-            print("\033[91m❌ Opción inválida.\033[0m")
-        
-        if opcion != "6":
+            print("\n❌ Opción inválida.")
             pausar()
 
 if __name__ == "__main__":
-    menu_principal()
+    main()
