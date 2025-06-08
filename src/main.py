@@ -1,100 +1,56 @@
+from usuarios import registrar_usuario, iniciar_sesion, modificar_rol_usuario, consultar_datos_personales
+from gestion_dispositivos import agregar_dispositivo, listar_dispositivos, buscar_dispositivo, eliminar_dispositivo
+from automatizacion import cargar_automatizacion_predefinida, activar_automatizacion
 from utilidades import limpiar_consola, pausar
-from gestion_dispositivos import (
-    agregar_dispositivo,
-    listar_dispositivos,
-    buscar_dispositivo,
-    eliminar_dispositivo,
-    cambiar_estado_dispositivo
-)
-from automatizaciones import (
-    ejecutar_automatizacion_nocturna,
-    ejecutar_automatizacion,
-    mostrar_estado_automatizacion,
-    listar_dispositivos_automatizados,
-    desactivar_todas_automatizaciones
-)
+
+usuarios = {}
+dispositivos = {}
+automatizaciones = cargar_automatizacion_predefinida()
 
 def menu_principal():
-    """Menú principal del sistema."""
-    dispositivos = {}
-    
+    limpiar_consola()
+    print("\033[93m==== SMART HOME SOLUTIONS ====\033[0m")
+    print("\n1. Registrar usuario")
+    print("2. Iniciar sesión")
+    print("0. Salir")
+    return input("\nSeleccioná una opción: ")
+
+def menu_estandar(usuario):
     while True:
         limpiar_consola()
-        print("\033[94m🏠 Sistema SmartHome\033[0m")
-        print("\n\033[96m1. Gestionar Dispositivos\033[0m")
-        print("\033[96m2. Automatizaciones\033[0m")
-        print("\033[96m3. Salir\033[0m")
-        
-        opcion = input("\nSeleccionar opción: ").strip()
+        print(f"\033[93m=== MENÚ ESTÁNDAR - Bienvenido {usuario['usuario']} ===\033[0m")
+        print("\n1. Consultar datos personales")
+        print("2. Consultar dispositivos")
+        print("3. Automatización personalizada")
+        print("0. Cerrar sesión")
+        opcion = input("\nSeleccioná una opción: ")
 
         if opcion == "1":
-            menu_dispositivos(dispositivos)
-        elif opcion == "2":
-            menu_automatizaciones(dispositivos)
-        elif opcion == "3":
             limpiar_consola()
-            print("\n\033[92m¡Hasta luego! 👋\033[0m\n")
-            break
-        else:
-            limpiar_consola()
-            print("\033[91m❌ Opción inválida.\033[0m")
+            consultar_datos_personales(usuario)
             pausar()
-
-def menu_dispositivos(dispositivos):
-    """Menú de gestión de dispositivos."""
-    while True:
-        limpiar_consola()
-        print("\033[94m📱 Gestión de Dispositivos\033[0m")
-        print("\n\033[96m1. Agregar dispositivo\033[0m")
-        print("\033[96m2. Listar dispositivos\033[0m")
-        print("\033[96m3. Buscar dispositivo\033[0m")
-        print("\033[96m4. Eliminar dispositivo\033[0m")
-        print("\033[96m5. Cambiar estado de un dispositivo\033[0m")
-        print("\033[96m6. Volver\033[0m")
-        
-        opcion = input("\nSeleccionar opción: ").strip()
-        
-        if opcion == "1":
-            dispositivo_id = input("\033[93mID del dispositivo: \033[0m").strip()
-            nombre = input("\033[93mNombre: \033[0m").strip()
-            tipo = input("\033[93mTipo (luz, cámara, etc.): \033[0m").strip()
-            limpiar_consola()
-            agregar_dispositivo(dispositivos, dispositivo_id, nombre, tipo)
-            
         elif opcion == "2":
             limpiar_consola()
             listar_dispositivos(dispositivos)
-            
+            pausar()
         elif opcion == "3":
-            dispositivo_id = input("\033[93mID del dispositivo a buscar: \033[0m").strip()
             limpiar_consola()
-            buscar_dispositivo(dispositivos, dispositivo_id)
-            
-        elif opcion == "4":
-            dispositivo_id = input("\033[93mID del dispositivo a eliminar: \033[0m").strip()
-            limpiar_consola()
-            eliminar_dispositivo(dispositivos, dispositivo_id)
-            
-        elif opcion == "5":
-            dispositivo_id = input("\033[93mID del dispositivo: \033[0m").strip()
-            
-            if dispositivo_id in dispositivos:
-                estado_actual = dispositivos[dispositivo_id]["estado"]
-                nuevo_estado = input(f"\033[93mEstado actual: {estado_actual}. Nuevo estado (encender/apagar): \033[0m").strip().lower()
-                limpiar_consola()
-                cambiar_estado_dispositivo(dispositivos, dispositivo_id, nuevo_estado)
-            else:
-                limpiar_consola()
-                print("\033[91m❌ Dispositivo no encontrado.\033[0m")
-                
-        elif opcion == "6":
+            activar_automatizacion(automatizaciones, dispositivos)
+            pausar()
+        elif opcion == "0":
             break
         else:
-            limpiar_consola()
-            print("\033[91m❌ Opción inválida.\033[0m")
-        
-        if opcion != "6":
+            print("\n❌ Opción inválida.")
             pausar()
+
+
+
+
+
+
+
+
+
 
 def menu_automatizaciones(dispositivos):
     """Menú de automatizaciones."""
