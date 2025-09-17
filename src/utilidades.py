@@ -7,3 +7,5 @@ def limpiar_consola():
 def pausar():
     """Pausa la ejecución hasta que el usuario presione Enter."""
     input("\nPresione Enter para continuar...")
+
+

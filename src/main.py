@@ -15,10 +15,10 @@ def menu_principal():
     print("0. Salir")
     return input("\nSeleccioná una opción: ")
 
-def menu_estandar(usuario):
+def menu_estandar(mail):
     while True:
         limpiar_consola()
-        print(f"\033[93m=== MENÚ ESTÁNDAR - Bienvenido {usuario['usuario']} ===\033[0m")
+        print(f"\033[93m=== MENÚ ESTÁNDAR - Bienvenido {mail['mail']} ===\033[0m")
         print("\n1. Consultar datos personales")
         print("2. Consultar dispositivos")
         print("3. Automatización personalizada")
@@ -27,7 +27,7 @@ def menu_estandar(usuario):
 
         if opcion == "1":
             limpiar_consola()
-            consultar_datos_personales(usuario)
+            consultar_datos_personales(mail)
             pausar()
         elif opcion == "2":
             limpiar_consola()
@@ -43,10 +43,10 @@ def menu_estandar(usuario):
             print("\n❌ Opción inválida.")
             pausar()
 
-def menu_admin(usuario):
+def menu_admin(mail):
     while True:
         limpiar_consola()
-        print(f"\033[93m=== MENÚ ADMIN - Bienvenido {usuario['usuario']} ===\033[0m")
+        print(f"\033[93m=== MENÚ ADMIN - Bienvenido {mail['mail']} ===\033[0m")
         print("\n1. Consultar automatización predefinida")
         print("2. Gestionar dispositivos")
         print("3. Modificar rol de usuario")
